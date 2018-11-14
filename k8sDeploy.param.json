@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "SPAppID": {
+            "value": ""
+        },
+        "SPObjectID": {
+            "value": ""
+        },
+        "SPSecret": {
+            "value": ""
+        },
+        "rgName": {
+            "value": "demok8srg"
+        },
+        "vnetName": {
+            "value": "demok8svnet"
+        },
+        "vnetTag": {
+            "value": "AKS VNET"
+        },
+        "vnetAddressPrefix": {
+            "value": "172.16.0.0/18"
+        },
+        "subnet1Name": {
+            "value": "k8s"
+        },
+        "subnet1Prefix": {
+            "value": "172.16.0.0/20"
+        },
+        "subnet2Name": {
+            "value": "services"
+        },
+        "subnet2Prefix": {
+            "value": "172.16.16.0/20"
+        },
+        "aksClusterName": {
+            "value": "demok8s"
+        },
+        "dnsPrefix": {
+            "value": "demok8s"
+        },
+        "k8sVersion": {
+            "value": "1.11.3"
+        },
+        "agentCount": {
+            "value": 3
+        },
+        "agentVMSize": {
+            "value": "Standard_DS2_v2"
+        },
+        "osAdminUser": {
+            "value": "opsadmin"
+        },
+        "sshPubKey": {
+            "value": "Place your SSH public key here"
+        },
+        "maxPods": {
+            "value": 30
+        },
+        "enableHttpApplicationRouting": {
+            "value": false
+        },
+        "networkPlugin": {
+            "value": "azure"
+        },
+        "enableRBAC": {
+            "value": false
+        },
+        "serviceCidr": {
+            "value": "10.0.0.0/16"
+        },
+        "dnsServiceIP": {
+            "value": "10.0.0.10"
+        },
+        "dockerBridgeCidr": {
+            "value": "172.17.0.1/16"
+        },
+        "aksEnv": {
+            "value": "demo"
+        }
+    }
+}
