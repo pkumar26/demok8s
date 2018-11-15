@@ -70,8 +70,8 @@ and finally you need objectID
 
 *Open Powershell/ PowerShell ISE and setup deployment variables:*
 
-    $location = ''
-    $resourceGroupName = ''
+    $location = 'westus2'
+    $resourceGroupName = 'demok8srg'
 
 *Create resource group if it not already there:*
     
@@ -84,8 +84,8 @@ and finally you need objectID
 
 *Setup deployment variables for ACR:*
 
-    $location = ''
-    $resourceGroupName = ''
+    $location = 'westus2'
+    $resourceGroupName = 'demok8srg'
     $resourceDeploymentName = 'demoacrdeploy'
     $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
     $templateFile = 'acrDeploy.json'
@@ -106,8 +106,8 @@ and finally you need objectID
 
 *Setup deployment variables for AKS:*
 
-    $location = ''
-    $resourceGroupName = ''
+    $location = 'westus2'
+    $resourceGroupName = 'demok8srg'
     $resourceDeploymentName = 'demok8sdeploy'
     $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
     $templateFile = 'k8sDeploy.json'
@@ -124,7 +124,8 @@ and finally you need objectID
      -TemplateParameterFile $templateParameter `
      -Verbose -Force
 
->As AKS deployment is going to take a while, let's setup ACR and push images to it.
+>As AKS deployment is going to take a while, let's setup some images to work with.
+If you already have docker images to work with, you may push them to ACR as well. If not, please use sample images for demo purpose.
 
 
 *Pull example images, tag them and push to your Azure Container Registry. We'll use these images to launch containers in AKS*
@@ -135,6 +136,11 @@ and finally you need objectID
     docker tag pkumar/helloworld <yourRegistry.azurecr.io>/helloworld
     docker tag pkumar/helloworld:v2 <yourRegistry.azurecr.io>/helloworld:v2
 
+> 'docker image ls' should show your images
+
+*On Azure portal find password to login to ACR. \
+Your ACR registery -> Access Keys -> password*
+
     docker login youracr.azurecr.io -u <username>
 
     docker push <yourRegistry.azurecr.io>/helloworld
@@ -142,8 +148,41 @@ and finally you need objectID
 
 
 
->Open acrDeploy.param.json in your favourite editor. Go through each value and edit them as needed
+*For AKS to pull images from ACR, grant AKS read only access to ACR:*
+
+    $aksresourcegroup='demok8srg'
+    $aksclustername='demok8s'
+    $acrresourcegroup='sharedrg'
+    $acrname=<yourRegistry.azurecr.io>
+    $clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab 
+
+    $acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
+
+    az role assignment create --assignee $clientid --role Reader --scope $acrid
+
+>Check if AKS deployment is complete & successful. Proceed further if AKS is deployed.
+
+*Get credentials to interact with AKS cluster:*
+
+    az aks get-credentials --resource-group demok8srg --name demok8s
+
+*Create K8s secret for deployments to pull images from ACR:*
+
+    kubectl create secret docker-registry <giveSecretaName> --docker-server <yourRegistry.azurecr.io> --docker-username <clientid> --docker-password <SPPassword> --docker-email <yourEmailAddress>
+
+*Install Helm & verify that Tiller is up & running successfully**
+
+    helm init
+    helm list   ….. This should work without any error
+
+    kubectl get pods -n kube-system
 
 
+*Install Traefik*
+>If you've domain to work with:
 
+    helm install --set dashboard.enabled=true,dashboard.domain=<URLto accessdashboard> stable/traefik
+>otherwise:
+
+    helm install stable/traefik
 Updating ....
