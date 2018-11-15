@@ -224,7 +224,7 @@ If you've public domain, you may setup A record to point to this IP e.g. dashboa
         NAME                                TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE
         helloworld-internal                 LoadBalancer   10.0.242.107   172.16.16.4     80:30304/TCP                 1m
 
-* Note that IP of load balancer is on internal subnet. You can launch a vm on this subnet (services) and access this IP in browser. *
+* Note that IP of LoadBalancer is on internal subnet. You can launch a vm on this subnet (services) and access this IP in browser. Helloworld-internal is exposed through Azure internal LoadBalancer. It can also be placed behind Traefik on internal subnet and let Traefik deals with all requests. but that is out of scope of this demo.*
 
 >Version 1 of external application, accessible through public/ external load balancer
 
