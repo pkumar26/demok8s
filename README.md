@@ -1,12 +1,12 @@
-# K8s Hands-On Lab's Objectives:
+# AKS/ K8s Hands-On Lab
+
+## Objectives
 - Running AKS cluster with VNet integration
 - ARM templates for the setup
 - ACR setup & its integration with AKS
 - Push & pull container images from ACR
-- Expose two services: one on internal & another on external network
+- Expose services on internal & public facing network
 - Use HELM for deployments to AKS (Optional)
-
-
 
 ## Before you start
 - Azure account
@@ -18,7 +18,7 @@
 - HELM (optional) - Only if you decide to use HELM
 - Draft (optional)
 
-# Prepare
+## Prepare
 
 *Login to your Azure account*
     
