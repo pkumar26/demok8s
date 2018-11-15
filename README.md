@@ -68,8 +68,6 @@ and finally you need objectID
     * acrDeploy.json - ACR deployment template.
     * acrDeploy.param.json - parameters file for ACR template
 
->Open k8sDeploy.param.json in your favourite editor. Go through each value and edit them as needed
-
 *Open Powershell/ PowerShell ISE and setup deployment variables:*
 
     $location = ''
@@ -81,6 +79,8 @@ and finally you need objectID
      -Name $resourceGroupName `
      -Location $location `
      -Verbose -Force
+
+>Open acrDeploy.param.json in your favourite editor. Go through each value and edit them as needed
 
 *Setup deployment variables for ACR:*
 
@@ -101,6 +101,8 @@ and finally you need objectID
      -TemplateFile $template `
      -TemplateParameterFile $templateParameter `
      -Verbose -Force
+
+>Open k8sDeploy.param.json in your favourite editor. Go through each value and edit them as needed
 
 *Setup deployment variables for AKS:*
 
