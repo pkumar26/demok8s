@@ -245,7 +245,7 @@ If you've public domain, you may setup A record to point to this IP e.g. dashboa
     virulent-dragon-traefik             LoadBalancer   10.0.75.182    13.14.15.16   80:32426/TCP,443:30632/TCP   1h
     virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244    <none>          80/TCP                       1h
 
-*Note that helloworld-v1 & v2 don't have external IPs but they are accessible through Traefik*
+>Note that helloworld-v1 & v2 don't have external IPs but they are accessible through Traefik
 
 http://<yourdomain.com>/v1 \
 http://<yourdomain.com>/v2
