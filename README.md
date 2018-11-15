@@ -54,7 +54,7 @@ and finally you need objectID
 
     "objectId": "715d88c2-58a0-4f88-8246-7f1a304c5bed"
 
->At this point, you are ready to launch AKS cluster. 
+>Note them down as you'll need them for deploying AKS cluster. 
 
 *Clone [demok8s](https://github.com/pkumar26/demok8s.git) repo locally:*
 
@@ -63,10 +63,13 @@ and finally you need objectID
 >Repo has following files in it:
 
     * Readme.md - These instructions
-    * k8sDeploy.json - Main AKS deployment template. Feel free to look but no editing is needed for this demo.
-    * k8sDeploy.param.json - contains values of all parameters used in main template.
-    * acrDeploy.json - ACR deployment template.
+    * k8sDeploy.json - Main AKS deployment template. Feel free to look but no editing is needed for this demo
+    * k8sDeploy.param.json - contains values of all parameters used in main template
+    * acrDeploy.json - ACR deployment template
     * acrDeploy.param.json - parameters file for ACR template
+    * helloworld-internal.yaml - k8s deployment file for application to be accessible on internal network
+    * helloworld.yaml - k8s deployment file for Version 1 of public facing application 
+    * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
 
 *Open Powershell/ PowerShell ISE and setup deployment variables:*
 
@@ -170,6 +173,8 @@ Your ACR registery -> Access Keys -> password*
 
     kubectl create secret docker-registry <giveSecretaName> --docker-server <yourRegistry.azurecr.io> --docker-username <clientid> --docker-password <SPPassword> --docker-email <yourEmailAddress>
 
+>you need this (giveSecretaName) for k8s deployments.
+
 *Install Helm & verify that Tiller is up & running successfully**
 
     helm init
@@ -204,17 +209,22 @@ We'll be exposing internal application through Azure Internal LB & Public facing
     virulent-dragon-traefik             LoadBalancer   10.0.75.182   13.14.15.16  80:32426/TCP,443:30632/TCP   18s
     virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244   <none>        80/TCP                       18s
 
->Note down the External-IP of Load Balancer launched for traefik. \
-If you've public domain, you may setup A record to point to this IP e.g. traefik.example.com. Accessing this will show you the dashboard of traefik.
+>Note down the External-IP of Public Load Balancer. \
+If you've public domain, you may setup A record to point to this IP e.g. dashboard.example.com. Accessing this will show you the dashboard of traefik.
 
 
-*Launch three deployments to AKS cluster*
+*Deploy three applications to AKS cluster*
 >Internal application, accessible only on internal network through internal load balancer
 
->External application, accessible through public/ external load balancer 
+    kubectl create -f helloworld-internal.yaml
 
->Internal application, accessible through public/ external load balancer 
+>Version 1 of external application, accessible through public/ external load balancer 
 
+    kubectl create -f helloworld.yaml
+
+>Version 2 of external application, accessible through public/ external load balancer 
+
+    kubectl create -f helloworld-v2.yaml
 
 
 Updating ....
