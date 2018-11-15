@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: helloworld-internal-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld-v1
+    spec:
+      containers:
+      - name: k8s-demo
+        image: <yourACRRegistry.azurecr.io>/helloworld:latest
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: <k8sSecretName>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-v1
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "services"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    nodePort: 30304
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: helloworld-v1
