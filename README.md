@@ -177,6 +177,8 @@ Your ACR registery -> Access Keys -> password*
 
     kubectl get pods -n kube-system
 
+>There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
+We'll be exposing internal application through Azure Internal LB & Public facing application through Traefik
 
 *Install Traefik*
 >If you've domain to work with:
@@ -185,4 +187,34 @@ Your ACR registery -> Access Keys -> password*
 >otherwise:
 
     helm install stable/traefik
+
+>Wait untill LoadBalancer has IP allocated to it.
+
+    kubectl get services
+
+    NAME                                TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+    kubernetes                          ClusterIP      10.0.0.1      <none>        443/TCP                      4h
+    virulent-dragon-traefik             LoadBalancer   10.0.75.182   <pending>     80:32426/TCP,443:30632/TCP   18s
+    virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244   <none>        80/TCP                       18s
+
+    kubectl get services
+
+    NAME                                TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+    kubernetes                          ClusterIP      10.0.0.1      <none>        443/TCP                      4h
+    virulent-dragon-traefik             LoadBalancer   10.0.75.182   13.14.15.16  80:32426/TCP,443:30632/TCP   18s
+    virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244   <none>        80/TCP                       18s
+
+>Note down the External-IP of Load Balancer launched for traefik. \
+If you've public domain, you may setup A record to point to this IP e.g. traefik.example.com. Accessing this will show you the dashboard of traefik.
+
+
+*Launch three deployments to AKS cluster*
+>Internal application, accessible only on internal network through internal load balancer
+
+>External application, accessible through public/ external load balancer 
+
+>Internal application, accessible through public/ external load balancer 
+
+
+
 Updating ....
