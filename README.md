@@ -68,7 +68,7 @@ and finally you need objectID
     * acrDeploy.json - ACR deployment template
     * acrDeploy.param.json - parameters file for ACR template
     * helloworld-internal.yaml - k8s deployment file for application to be accessible on internal network
-    * helloworld.yaml - k8s deployment file for Version 1 of public facing application 
+    * helloworld-v1.yaml - k8s deployment file for Version 1 of public facing application 
     * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
 
 *Open Powershell/ PowerShell ISE and setup deployment variables:*
@@ -214,13 +214,21 @@ If you've public domain, you may setup A record to point to this IP e.g. dashboa
 
 
 *Deploy three applications to AKS cluster*
+
 >Internal application, accessible only on internal network through internal load balancer
 
-    kubectl create -f helloworld-internal.yaml
 
->Version 1 of external application, accessible through public/ external load balancer 
+        kubectl create -f helloworld-internal.yaml
 
-    kubectl create -f helloworld.yaml
+        kubectl get services
+        NAME                                TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE
+        helloworld-internal                 LoadBalancer   10.0.242.107   172.16.16.4     80:30304/TCP                 1m
+
+* Note that IP of load balancer is on internal subnet. You can launch a vm on this subnet (services) and access this IP in browser. *
+
+>Version 1 of external application, accessible through public/ external load balancer
+
+    kubectl create -f helloworld-v1.yaml
 
 >Version 2 of external application, accessible through public/ external load balancer 
 
