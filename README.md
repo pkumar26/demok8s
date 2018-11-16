@@ -7,7 +7,7 @@
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
 
-At the end of lab we'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
+At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
 
 ![](diagram.jpg)
 
@@ -52,11 +52,11 @@ and finally you need objectID
     
     az ad sp show --id "<appID>"
 
->If you scroll down to the bottom of the output of above command, you'll see objectID similar to this:
+>Scroll down to the bottom of the output of above command & you'll see objectID similar to this:
 
     "objectId": "715d88c2-58a0-4f88-8246-7f1a304c5bed"
 
->Note them down as you'll need them for deploying AKS cluster. 
+>Note them down as these values are needed for deploying AKS cluster. 
 
 
 ## Demo
@@ -88,7 +88,7 @@ and finally you need objectID
      -Location $location `
      -Verbose -Force
 
->Open acrDeploy.param.json in your favourite editor. Go through each value and edit them as needed
+>Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
 *Setup deployment variables for ACR:*
 
@@ -110,7 +110,7 @@ and finally you need objectID
      -TemplateParameterFile $templateParameter `
      -Verbose -Force
 
->Open k8sDeploy.param.json in your favourite editor. Go through each value and edit them as needed
+>Explore contents of k8sDeploy & k8sDeploy.param.json in your favourite editor. Edit parameter values in k8sDeploy.param.json as needed.
 
 *Setup deployment variables for AKS:*
 
@@ -154,8 +154,6 @@ Your ACR registery -> Access Keys -> password*
     docker push <yourRegistry.azurecr.io>/helloworld
     docker push <yourRegistry.azurecr.io>/helloworld:v2
 
-
-
 *For AKS to pull images from ACR, grant AKS read only access to ACR:*
 
     $aksresourcegroup='demok8srg'
@@ -188,7 +186,7 @@ Your ACR registery -> Access Keys -> password*
     kubectl get pods -n kube-system
 
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
-We'll be exposing internal application through Azure Internal LB & Public facing application through Traefik
+You'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
 
 *Install Traefik*
 >If you've domain to work with, replace example domain name below. If not, you need to add example domain to hosts file as shown below:
