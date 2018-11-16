@@ -136,7 +136,7 @@ and finally you need objectID
 If you already have docker images to work with, you may push them to ACR as well. If not, please use sample images for demo purpose.
 
 
-*Pull example images, tag them and push to your Azure Container Registry. We'll use these images to launch containers in AKS*
+*Pull example images, tag them and push to your Azure Container Registry. You'll use these images to launch containers in AKS*
 
     docker pull pkumar/helloworld:latest
     docker pull pkumar/helloworld:v2
