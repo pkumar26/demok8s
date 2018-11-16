@@ -1,4 +1,4 @@
-# Azure Kubernetes Service with advanced networking - hands-On lab
+# Azure Kubernetes Service (AKS) with Advanced Networking
 
 ## Objectives
 - Running AKS cluster with VNet integration
