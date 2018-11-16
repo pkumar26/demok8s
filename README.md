@@ -248,4 +248,20 @@ If you've public domain, you may setup A record to point to this IP e.g. demo.ex
 http://demo.example.com/v1 \
 http://demo.example.com/v2
 
+*Scale up the any application by editing yaml file and changing replicas from 1 to 3*
+
+    replicas: 3
+
+*apply changes, and verify the increased number of pods*
+
+    kubectl apply -f helloworld-v1.yml
+
+    kubectl get pods
+
+*kill some pods & see what happens, e.g*
+
+     kubectl delete pod helloworld-v1-deployment-567bf9876-2r2km
+
+     kubectl get pods
+
 This concludes the lab.
