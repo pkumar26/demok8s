@@ -7,6 +7,10 @@
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
 
+At the end of lab we'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
+
+![](diagram.jpg)
+
 ## Before you start
 - Azure account
 - Code Editor e.g VSCode - I think it's the best
