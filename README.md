@@ -181,9 +181,8 @@ Your ACR registery -> Access Keys -> password*
 *Install Helm & verify that Tiller is up & running successfully**
 
     helm init
-    helm list   ….. This should work without any error
-
-    kubectl get pods -n kube-system
+    kubectl get pods -n kube-system     <--Verify that tiller is up & running
+    helm list                           <-- This should work without any error
 
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
 You'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
