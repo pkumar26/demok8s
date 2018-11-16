@@ -257,13 +257,13 @@ http://demo.example.com/v2
 
     replicas: 3
 
-*apply changes, and verify the increased number of pods*
+*Apply changes, and verify the increased number of pods*
 
     kubectl apply -f helloworld-v1.yml
 
     kubectl get pods
 
-*kill some pods & see what happens, e.g*
+*Kill some pods & see what happens, e.g*
 
      kubectl delete pod helloworld-v1-deployment-567bf9876-2r2km
 
