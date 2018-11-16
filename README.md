@@ -12,13 +12,13 @@ At the end of lab we'll have a vnet with 2 subnets, Azure Container Registery, A
 ![](diagram.jpg)
 
 ## Before you start
-- Azure account
-- Code Editor e.g VSCode - I think it's the best
-- docker cli
-- kubectl cli
+- [Azure account](https://azure.microsoft.com/en-us/free/)
+- Code Editor e.g [VSCode](https://code.visualstudio.com/)
+- [Docker](https://www.docker.com/get-started)
+- [kubectl cli](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - PowerShell or PowerShell ISE
-- az cli
-- HELM
+- [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+- [HELM](https://docs.helm.sh/)
 
 ## Prepare
 
