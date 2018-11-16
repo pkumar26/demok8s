@@ -6,7 +6,6 @@
 - ACR setup & its integration with AKS
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
-- Use HELM for deployments to AKS
 
 ## Before you start
 - Azure account
