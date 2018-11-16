@@ -185,12 +185,9 @@ Your ACR registery -> Access Keys -> password*
 We'll be exposing internal application through Azure Internal LB & Public facing application through Traefik
 
 *Install Traefik*
->If you've domain to work with, replace example domain name below:
+>If you've domain to work with, replace example domain name below. If not, you need to add example domain to hosts file as shown below:
 
-    helm install --set dashboard.enabled=true,dashboard.domain=dashboard.example.com stable/traefik
->otherwise:
-
-    helm install stable/traefik
+    helm install --set dashboard.enabled=true,dashboard.domain=demo.example.com stable/traefik
 
 >Wait untill LoadBalancer has IP allocated to it.
 
@@ -208,9 +205,12 @@ We'll be exposing internal application through Azure Internal LB & Public facing
     virulent-dragon-traefik             LoadBalancer   10.0.75.182   13.14.15.16  80:32426/TCP,443:30632/TCP   18s
     virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244   <none>        80/TCP                       18s
 
->Note down the External-IP of Public Load Balancer. \
-If you've public domain, you may setup A record to point to this IP e.g. dashboard.example.com. Accessing this will show you the dashboard of traefik.
+>Note down the External-IP of Public Load Balancer.\
+If you've public domain, you may setup A record to point to this IP e.g. demo.example.com. Accessing this will show you the dashboard of traefik. If not, please edit hosts file and add example domain pointing to LoadBalancer External IP:
 
+    notepad c:\windows\system32\drivers\etc\hosts
+
+    13.14.15.16	demo.example.com
 
 *Deploy three applications to AKS cluster*
 
@@ -246,15 +246,7 @@ If you've public domain, you may setup A record to point to this IP e.g. dashboa
 
 >Note that helloworld-v1 & v2 don't have external IPs but they are accessible through Traefik
 
-http://<yourdomain.com>/v1 \
-http://<yourdomain.com>/v2
+http://demo.example.com/v1 \
+http://demo.example.com/v2
 
-This concludes the Lab. Interested in playing with HELM? Read on...
-
-
-
-
-
-
-
-Updating ....
+This concludes the lab.
