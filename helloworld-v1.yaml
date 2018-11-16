@@ -41,7 +41,7 @@ metadata:
     traefik.frontend.rule.type: PathPrefixStrip
 spec:
   rules:
-  - host: demo.cyborg.ml
+  - host: demo.example.com
     http:
       paths:
       - path: /v1
