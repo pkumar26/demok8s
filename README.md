@@ -6,7 +6,7 @@
 - ACR setup & its integration with AKS
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
-- Use HELM for deployments to AKS (Optional)
+- Use HELM for deployments to AKS
 
 ## Before you start
 - Azure account
@@ -15,8 +15,7 @@
 - kubectl cli
 - PowerShell or PowerShell ISE
 - az cli
-- HELM (optional) - Only if you decide to use HELM
-- Draft (optional)
+- HELM
 
 ## Prepare
 
@@ -157,8 +156,8 @@ Your ACR registery -> Access Keys -> password*
     $aksclustername='demok8s'
     $acrresourcegroup='sharedrg'
     $acrname=<yourRegistry.azurecr.io>
-    $clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab 
 
+    $clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
     $acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
 
     az role assignment create --assignee $clientid --role Reader --scope $acrid
@@ -186,9 +185,9 @@ Your ACR registery -> Access Keys -> password*
 We'll be exposing internal application through Azure Internal LB & Public facing application through Traefik
 
 *Install Traefik*
->If you've domain to work with:
+>If you've domain to work with, replace example domain name below:
 
-    helm install --set dashboard.enabled=true,dashboard.domain=<URLto accessdashboard> stable/traefik
+    helm install --set dashboard.enabled=true,dashboard.domain=dashboard.example.com stable/traefik
 >otherwise:
 
     helm install stable/traefik
