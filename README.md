@@ -269,4 +269,4 @@ http://demo.example.com/v2
 
      kubectl get pods
 
-This concludes the lab.
+This concludes the demo.
