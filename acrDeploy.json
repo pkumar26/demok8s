@@ -39,9 +39,9 @@
   },
   "resources": [
     {
-      "name": "[parameters('acrName')]",
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2017-10-01",
+      "name": "[parameters('acrName')]",
       "location": "[parameters('location')]",
       "comments": "Container registry for storing docker images",
       "tags": {

@@ -274,9 +274,9 @@
             }
         },
         {
+            "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2018-08-01",
             "name": "[parameters('vnetName')]",
-            "type": "Microsoft.Network/virtualNetworks",
             "location": "[resourceGroup().location]",
             "dependsOn": [],
             "tags": {
@@ -306,8 +306,8 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "ClusterSubnetRoleAssignmentDeployment",
             "apiVersion": "2017-05-10",
+            "name": "ClusterSubnetRoleAssignmentDeployment",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
