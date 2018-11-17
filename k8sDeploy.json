@@ -5,36 +5,36 @@
         "SPAppID": {
             "type": "securestring",
             "metadata": {
-                 "description": "APP ID of Service Principal"
-             }
-         },
-         "SPObjectID": {
+                "description": "APP ID of Service Principal"
+            }
+        },
+        "SPObjectID": {
             "type": "securestring",
             "metadata": {
-                 "description": "Object ID of Service Principal"
-             }
-         },
-         "SPSecret": {
+                "description": "Object ID of Service Principal"
+            }
+        },
+        "SPSecret": {
             "type": "securestring",
             "metadata": {
-                 "description": "Secret for Service Principal"
-             }
-         },
-         "rgName": {
+                "description": "Secret for Service Principal"
+            }
+        },
+        "rgName": {
             "type": "string",
             "metadata": {
-                 "description": "Resource Group name"
-             }
-         },
-         "vnetName": {
+                "description": "Resource Group name"
+            }
+        },
+        "vnetName": {
             "type": "string",
             "metadata": {
                 "description": "Virtual Network Name"
             }
         },
         "vnetTag": {
-           "type": "string",
-           "metadata": {
+            "type": "string",
+            "metadata": {
                 "description": "Azure display tag for VNet"
             }
         },
@@ -123,16 +123,16 @@
             "maxValue": 1023
         },
         "osAdminUser": {
-           "type": "string",
-           "metadata": {
+            "type": "string",
+            "metadata": {
                 "description": "Admin user to login to worker nodes"
             }
         },
         "sshPubKey": {
             "type": "string",
             "metadata": {
-                 "description": "Public SSH Key for worker nodes"
-             }
+                "description": "Public SSH Key for worker nodes"
+            }
         },
         "maxPods": {
             "type": "int",
@@ -186,10 +186,10 @@
         "aksEnv": {
             "type": "string",
             "metadata": {
-                 "description": "AKS cluster environment"
-             }
-         },
-         "enableOmsAgent": {
+                "description": "AKS cluster environment"
+            }
+        },
+        "enableOmsAgent": {
             "type": "bool",
             "defaultValue": true,
             "metadata": {
@@ -222,11 +222,11 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "apiVersion": "2018-03-31",
             "name": "[parameters('aksClusterName')]",
-            "location":  "[resourceGroup().location]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
                 "[concat('Microsoft.Resources/deployments/', 'ClusterSubnetRoleAssignmentDeployment')]"
-            ], 
+            ],
             "properties": {
                 "k8sVersion": "[parameters('k8sVersion')]",
                 "enableRBAC": "[parameters('enableRBAC')]",
@@ -251,11 +251,11 @@
                 "linuxProfile": {
                     "adminUsername": "[parameters('osAdminUser')]",
                     "ssh": {
-                      "publicKeys": [
-                        {
-                          "keyData": "[parameters('sshPubKey')]"
-                        }
-                      ]
+                        "publicKeys": [
+                            {
+                                "keyData": "[parameters('sshPubKey')]"
+                            }
+                        ]
                     }
                 },
                 "servicePrincipalProfile": {
@@ -270,7 +270,7 @@
                 }
             },
             "tags": {
-                "env":  "[parameters('aksEnv')]"
+                "env": "[parameters('aksEnv')]"
             }
         },
         {
@@ -316,8 +316,7 @@
                 "template": {
                     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
-                    "parameters": {
-                    },
+                    "parameters": {},
                     "resources": [
                         {
                             "type": "Microsoft.Network/virtualNetworks/subnets/providers/roleAssignments",
