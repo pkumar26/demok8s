@@ -76,7 +76,14 @@ and finally you need objectID
     * helloworld-v1.yaml - k8s deployment file for Version 1 of public facing application 
     * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
 
-*Open Powershell/ PowerShell ISE and setup deployment variables:*
+
+*Install Azure RM PowerShell module if it's not already installed & connect to your account*
+
+    Install-module -name AzureRM -verbose -Force
+    
+    Connect AzureRmAccount
+
+*Setup deployment variables:*
 
     $location = 'westus2'
     $resourceGroupName = 'demok8srg'
@@ -185,7 +192,7 @@ Your ACR registery -> Access Keys -> password*
     helm list                           <-- This should work without any error
 
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
-You'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
+For this demo you'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
 
 *Install Traefik*
 >If you've domain to work with, replace example domain name below. If not, you need to add example domain to hosts file as shown below:
@@ -269,3 +276,40 @@ http://demo.example.com/v2
      kubectl get pods
 
 This concludes the demo.
+
+
+
+
+
+
+
+
+
+*Create Azure KeyVault and store SP secret & sshkey in it*
+
+*Setup deployment variables for Azure KeyVault:*
+
+    $location = 'westus2'
+    $resourceGroupName = 'infrarg'
+    $resourceDeploymentName = 'demokvdeploy'
+    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
+    $templateFile = 'kvDeploy.json'
+    $templateParameterFile = 'kvDeploy.param.json'
+    $template = $templatePath + '\' + $templateFile
+    $templateParameter = $templatePath + '\' + $templateParameterFile
+
+*Create resource group if it not already there:*
+    
+    New-AzureRmResourceGroup `
+     -Name $resourceGroupName `
+     -Location $location `
+     -Verbose -Force
+     
+*Create Azure Container Registry:*
+
+    New-AzureRmResourceGroupDeployment `
+     -Name $resourceDeploymentName `
+     -ResourceGroupName $resourceGroupName `
+     -TemplateFile $template `
+     -TemplateParameterFile $templateParameter `
+     -Verbose -Force
