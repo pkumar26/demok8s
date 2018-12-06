@@ -23,7 +23,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 ## Prepare
 
 *Login to your Azure account*
-    
+
     az login
 
 AKS needs permissions to manage resources in Azure & interact with Azure APIs e.g. launching LoadBalancers, virtual machines etc. Assuming that you have required permissions to create Service Principal, let's create one. \
@@ -49,14 +49,14 @@ password is your password for SP (obviously) \
 and finally you need objectID
 
 *Find Object ID of the SP created above:*
-    
+
     az ad sp show --id "<appID>"
 
 >Scroll down to the bottom of the output of above command & you'll see objectID similar to this:
 
     "objectId": "715d88c2-58a0-4f88-8246-7f1a304c5bed"
 
->Note them down as these values are needed for deploying AKS cluster. 
+>Note them down as these values are needed for deploying AKS cluster.
 
 
 ## Demo
@@ -73,14 +73,14 @@ and finally you need objectID
     * acrDeploy.json - ACR deployment template
     * acrDeploy.param.json - parameters file for ACR template
     * helloworld-internal.yaml - k8s deployment file for application to be accessible on internal network
-    * helloworld-v1.yaml - k8s deployment file for Version 1 of public facing application 
+    * helloworld-v1.yaml - k8s deployment file for Version 1 of public facing application
     * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
 
 
 *Install Azure RM PowerShell module if it's not already installed & connect to your account*
 
     Install-module -name AzureRM -verbose -Force
-    
+
     Connect AzureRmAccount
 
 *Setup deployment variables:*
@@ -89,7 +89,7 @@ and finally you need objectID
     $resourceGroupName = 'demok8srg'
 
 *Create resource group if it not already there:*
-    
+
     New-AzureRmResourceGroup `
      -Name $resourceGroupName `
      -Location $location `
@@ -239,7 +239,7 @@ If you've public domain, you may setup A record to point to this IP e.g. demo.ex
 
     kubectl create -f helloworld-v1.yaml
 
->Version 2 of external application, accessible through public/ external load balancer 
+>Version 2 of external application, accessible through public/ external load balancer
 
     kubectl create -f helloworld-v2.yaml
 
@@ -276,40 +276,3 @@ http://demo.example.com/v2
      kubectl get pods
 
 This concludes the demo.
-
-
-
-
-
-
-
-
-
-*Create Azure KeyVault and store SP secret & sshkey in it*
-
-*Setup deployment variables for Azure KeyVault:*
-
-    $location = 'westus2'
-    $resourceGroupName = 'infrarg'
-    $resourceDeploymentName = 'demokvdeploy'
-    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
-    $templateFile = 'kvDeploy.json'
-    $templateParameterFile = 'kvDeploy.param.json'
-    $template = $templatePath + '\' + $templateFile
-    $templateParameter = $templatePath + '\' + $templateParameterFile
-
-*Create resource group if it not already there:*
-    
-    New-AzureRmResourceGroup `
-     -Name $resourceGroupName `
-     -Location $location `
-     -Verbose -Force
-     
-*Create Azure Container Registry:*
-
-    New-AzureRmResourceGroupDeployment `
-     -Name $resourceDeploymentName `
-     -ResourceGroupName $resourceGroupName `
-     -TemplateFile $template `
-     -TemplateParameterFile $templateParameter `
-     -Verbose -Force
