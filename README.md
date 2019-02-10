@@ -279,38 +279,3 @@ http://demo.example.com/v2
      kubectl get pods
 
 This concludes the demo.
-
-
-
-
-
-
-
-*Create Azure KeyVault and store SP secret & sshkey in it*
-
-*Setup deployment variables for Azure KeyVault:*
-
-    $location = 'westus2'
-    $resourceGroupName = 'infrarg'
-    $resourceDeploymentName = 'demokvdeploy'
-    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
-    $templateFile = 'kvDeploy.json'
-    $templateParameterFile = 'kvDeploy.param.json'
-    $template = $templatePath + '\' + $templateFile
-    $templateParameter = $templatePath + '\' + $templateParameterFile
-
-*Create resource group if it not already there:*
-
-    New-AzureRmResourceGroup `
-     -Name $resourceGroupName `
-     -Location $location `
-     -Verbose -Force
-
-*Create Azure Container Registry:*
-
-    New-AzureRmResourceGroupDeployment `
-     -Name $resourceDeploymentName `
-     -ResourceGroupName $resourceGroupName `
-     -TemplateFile $template `
-     -TemplateParameterFile $templateParameter `
-     -Verbose -Force
