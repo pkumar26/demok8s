@@ -140,8 +140,11 @@ and finally you need objectID
      -Verbose -Force
 
 >As AKS deployment is going to take a while, let's setup some images to work with.
-If you already have docker images to work with, you may push them to ACR as well. If not, please use sample images for demo purpose.
+If you already have docker images, you may push them to ACR as well.
 
+> !! *Bonus - [Create & publish your images to your container registry using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops.md)* !!
+
+> If not, please use sample images for demo purpose.
 
 *Pull example images, tag them and push to your Azure Container Registry. You'll use these images to launch containers in AKS*
 
@@ -276,3 +279,38 @@ http://demo.example.com/v2
      kubectl get pods
 
 This concludes the demo.
+
+
+
+
+
+
+
+*Create Azure KeyVault and store SP secret & sshkey in it*
+
+*Setup deployment variables for Azure KeyVault:*
+
+    $location = 'westus2'
+    $resourceGroupName = 'infrarg'
+    $resourceDeploymentName = 'demokvdeploy'
+    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
+    $templateFile = 'kvDeploy.json'
+    $templateParameterFile = 'kvDeploy.param.json'
+    $template = $templatePath + '\' + $templateFile
+    $templateParameter = $templatePath + '\' + $templateParameterFile
+
+*Create resource group if it not already there:*
+
+    New-AzureRmResourceGroup `
+     -Name $resourceGroupName `
+     -Location $location `
+     -Verbose -Force
+
+*Create Azure Container Registry:*
+
+    New-AzureRmResourceGroupDeployment `
+     -Name $resourceDeploymentName `
+     -ResourceGroupName $resourceGroupName `
+     -TemplateFile $template `
+     -TemplateParameterFile $templateParameter `
+     -Verbose -Force
