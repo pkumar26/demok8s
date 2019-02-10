@@ -27,7 +27,7 @@
     aks-agentpool-23040724-2   Ready     agent     85d       v1.9.11
     virtual-node-aci-linux     Ready     agent     48m       v1.13.1-vk-v0.7.4-44-g4f3bd20e-dev
 
-*Examine aci.yaml and redeploy internal on through ACI*
+*Examine aci.yaml and redeploy internal app on ACI*
 
     kubectl delete -f helloworld-internal.yaml
     kubectl create -f aci.yaml
