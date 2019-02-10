@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: k8s-demo
-        image: kumar.azurecr.io/helloworld:2
+        image: <yourACRRegistry.azurecr.io>/helloworld:2
         ports:
         - containerPort: 3000
       imagePullSecrets:
