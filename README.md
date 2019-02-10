@@ -279,3 +279,5 @@ http://demo.example.com/v2
      kubectl get pods
 
 This concludes the demo.
+
+> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster ](aci.md)* !!
