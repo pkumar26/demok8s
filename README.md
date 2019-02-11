@@ -8,6 +8,7 @@
 - Expose services on internal & public facing network
 - Extend AKS cluster with ACI
 - Option to setup CI pipeline using Azure DevOps
+- Using persistent storage for the applications
 
 At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
 
@@ -90,7 +91,7 @@ and finally you need objectID
 
 *Setup deployment variables:*
 
-    $location = 'westus2'
+    $location = 'westus'
     $resourceGroupName = 'demok8srg'
 
 *Create resource group if it not already there:*
@@ -283,7 +284,11 @@ http://demo.example.com/v2
 
     kubectl get pods
 
-*Deploy Mongodb with persistent storage*
+> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
+
+## Persistent storage for your applications
+
+*Deploy Mongodb cluster with persistent storage*
 
     kubectl apply -f storage.yaml
 
@@ -309,6 +314,8 @@ http://demo.example.com/v2
 
     kubectl delete pod mongo-0
 
+    kubectl get pods
+
 ## Logging
 
 Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
@@ -319,7 +326,4 @@ Browse to your AKS cluster on the Azure portal and click on Insights under Monit
 
 ![](logging/3-monitoring.jpg)
 
-
 This concludes the demo.
-
-> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
