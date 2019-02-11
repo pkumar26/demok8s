@@ -75,6 +75,9 @@ and finally you need objectID
     * helloworld-internal.yaml - k8s deployment file for application to be accessible on internal network
     * helloworld-v1.yaml - k8s deployment file for Version 1 of public facing application
     * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
+    * storage.yaml - provisioning Azure disk managed storage provider
+    * stateful-mongo.yaml - Mongodb with persistent storage
+    * aci.yaml - launch containers on ACI
 
 
 *Install Azure RM PowerShell module if it's not already installed & connect to your account*
@@ -318,5 +321,3 @@ Browse to your AKS cluster on the Azure portal and click on Insights under Monit
 This concludes the demo.
 
 > !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
-
-> !! *Bonus - [Integrate AKS with Azure KeyVault](https://github.com/pkumar26/keyvault.git)* !!
