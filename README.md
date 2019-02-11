@@ -6,6 +6,8 @@
 - ACR setup & its integration with AKS
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
+- Extend AKS cluster with ACI
+- Option to setup CI pipeline using Azure DevOps
 
 At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
 
