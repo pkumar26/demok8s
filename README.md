@@ -304,6 +304,17 @@ http://demo.example.com/v2
 
     kubectl delete pod mongo-0
 
+## Logging
+
+Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
+
+![](logging/1-monitoring.jpg)
+
+![](logging/2-monitoring.jpg)
+
+![](logging/3-monitoring.jpg)
+
+
 This concludes the demo.
 
 > !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
