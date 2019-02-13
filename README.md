@@ -292,6 +292,8 @@ http://demo.example.com/v2
 
     kubectl apply -f storage.yaml
 
+    kubectl apply -f headless.yaml
+
     kubectl apply -f stateful-mongo.yaml
 >
     kubectl get pods -o wide
