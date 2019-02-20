@@ -42,7 +42,7 @@
             "value": "demok8s"
         },
         "k8sVersion": {
-            "value": "1.11.3"
+            "value": ""
         },
         "agentCount": {
             "value": 3
