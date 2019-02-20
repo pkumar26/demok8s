@@ -17,9 +17,11 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 ## Before you start
 - [Azure account](https://azure.microsoft.com/en-us/free/)
 - Code Editor e.g [VSCode](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Docker](https://www.docker.com/get-started)
 - [kubectl cli](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- PowerShell or PowerShell ISE
+- [PowerShell or PowerShell ISE](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6)
+- [Azure PowerShell Module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-1.3.0)
 - [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 - [HELM](https://docs.helm.sh/)
 
@@ -83,11 +85,11 @@ and finally you need objectID
     * aci.yaml - launch containers on ACI
 
 
-*Install Azure RM PowerShell module if it's not already installed & connect to your account*
+*Install Azure PowerShell module if it's not already installed & connect to your account*
 
-    Install-module -name AzureRM -verbose -Force
+    Install-Module -Name Az -AllowClobber
 
-    Connect AzureRmAccount
+    Connect-AzAccount
 
 *Setup deployment variables:*
 
@@ -96,7 +98,7 @@ and finally you need objectID
 
 *Create resource group if it not already there:*
 
-    New-AzureRmResourceGroup `
+    New-AzResourceGroup `
      -Name $resourceGroupName `
      -Location $location `
      -Verbose -Force
@@ -116,7 +118,7 @@ and finally you need objectID
 
 *Create Azure Container Registry:*
 
-    New-AzureRmResourceGroupDeployment `
+    New-AzResourceGroupDeployment `
      -Name $resourceDeploymentName `
      -ResourceGroupName $resourceGroupName `
      -TemplateFile $template `
@@ -138,7 +140,7 @@ and finally you need objectID
 
 *Launch AKS cluster deployment:*
 
-    New-AzureRmResourceGroupDeployment `
+    New-AzResourceGroupDeployment `
      -Name $resourceDeploymentName `
      -ResourceGroupName $resourceGroupName `
      -TemplateFile $template `
