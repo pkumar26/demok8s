@@ -9,7 +9,7 @@ spec:
   metadata:
    labels:
     role: mongo
-    environment: test
+    environment: demo
   spec:
     terminationGracePeriodSeconds: 10
     containers:
