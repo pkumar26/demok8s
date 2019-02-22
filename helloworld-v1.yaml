@@ -10,8 +10,8 @@ spec:
         app: helloworld-v1
     spec:
       containers:
-      - name: k8s-demo
-        image: <yourACRRegistry.azurecr.io/helloworld:latest
+      - name: helloworld-v1
+        image: <yourACRRegistry.azurecr.io>/helloworld:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

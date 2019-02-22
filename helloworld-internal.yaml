@@ -10,10 +10,18 @@ spec:
         app: helloworld-internal
     spec:
       containers:
-      - name: k8s-demo
+      - name: helloworld-internal
         image: <yourACRRegistry.azurecr.io>/helloworld:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
       imagePullSecrets:
       - name: <k8sSecretName>
 ---
