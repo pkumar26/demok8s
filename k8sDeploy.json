@@ -20,12 +20,6 @@
                 "description": "Secret for Service Principal"
             }
         },
-        "rgName": {
-            "type": "string",
-            "metadata": {
-                "description": "Resource Group name"
-            }
-        },
         "vnetName": {
             "type": "string",
             "metadata": {
