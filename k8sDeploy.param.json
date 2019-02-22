@@ -11,9 +11,6 @@
         "SPSecret": {
             "value": ""
         },
-        "rgName": {
-            "value": "demok8srg"
-        },
         "vnetName": {
             "value": "demok8svnet"
         },
