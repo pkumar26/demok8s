@@ -10,10 +10,18 @@ spec:
         app: helloworld-v2
     spec:
       containers:
-      - name: k8s-demo
-        image: <yourACRRegistry.azurecr.io>/helloworld:2
+      - name: helloworld-v2
+        image: <yourACRRegistry.azurecr.io>/helloworld:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
       imagePullSecrets:
       - name: acr-auth
 ---
