@@ -36,7 +36,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 
 
 ## Before you start
----
+
 - [Azure account](https://azure.microsoft.com/en-us/free/)
 - Code Editor e.g [VSCode](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -46,7 +46,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 - [HELM](https://docs.helm.sh/)
 
 ## Configure your environment
----
+
 **Login to your Azure account**
 
     az login
