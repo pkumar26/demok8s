@@ -1,4 +1,18 @@
 # Azure Kubernetes Service (AKS) with Advanced Networking
+[Objectives](#bbjectives) \
+[Before you start](#before-you-start) \
+[Configure your environment](#configure-your-environment) \
+[Setup Azure Container Registry](#setup-azure-container-registry) \
+[Create a Kubernetes cluster in Azure](#create-a-kubernetes-cluster-in-azure) \
+[Prepare container images](#prepare-container-images) \
+[Allow AKS to access ACR images](#allow-aks-to-access-acr-images) \
+[Ready AKS cluster for HELM deployments](#ready-aks-cluster-for-helm-deployments) \
+[Private and Public Ingress](#private-and-public-ingress) \
+[Deploy apps to AKS](#deploy-apps-to-aks) \
+[Extend AKS](#extend-aks-with-ACI-(azure-container-images)) \
+[Persistent storage and state](#persistent-storage-and-state) \
+[Upgrading and Scaling AKS](#upgrading-and-scaling-aks-cluster) \
+[Logging & Application Insights](#logging-&-application-insights)
 
 ## Objectives
 - Running AKS cluster with VNet integration
@@ -7,8 +21,9 @@
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
 - Extend AKS cluster with ACI
-- Option to setup CI pipeline using Azure DevOps
+- Option to setup CI & CD pipeline using Azure DevOps
 - Using persistent storage for the applications
+- Application Insights
 
 At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
 
@@ -18,23 +33,22 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 - [Azure account](https://azure.microsoft.com/en-us/free/)
 - Code Editor e.g [VSCode](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- [Docker](https://www.docker.com/get-started)
+- [Docker](https://www.docker.com/get-started) - Not needed if using Azure DevOps
 - [kubectl cli](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [PowerShell or PowerShell ISE](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6)
-- [Azure PowerShell Module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-1.3.0)
-- [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+- You may choose to install - [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) and [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6) with [Azure PowerShell Module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-1.3.0) locally on your machine or use browser based [Azure Cloud Shell](https://shell.azure.com/) and select your shell there.
 - [HELM](https://docs.helm.sh/)
 
-## Prepare
+## Configure your environment
 
-*Login to your Azure account*
+**Login to your Azure account**
 
     az login
+Note: Cloud Shell will automatically logs you in your account.
 
 AKS needs permissions to manage resources in Azure & interact with Azure APIs e.g. launching LoadBalancers, virtual machines etc. Assuming that you have required permissions to create Service Principal, let's create one. \
 It needs minimal permission of "Network Contributer" role on subnet in which it'll launch nodes, podes and services and of "Reader" role to pull images from ACR.
 
-*Create Service Principal (SP):*
+**Create Service Principal (SP):**
 
     az ad sp create-for-rbac -n <NameOfServicePrincipal> --skip-assignment
 
@@ -53,7 +67,7 @@ It needs minimal permission of "Network Contributer" role on subnet in which it'
 password is your password for SP (obviously) \
 and finally you need objectID
 
-*Find Object ID of the SP created above:*
+**Find Object ID of the SP created above:**
 
     az ad sp show --id "<appID>"
 
@@ -63,12 +77,10 @@ and finally you need objectID
 
 >Note them down as these values are needed for deploying AKS cluster.
 
-
-## Demo
-
-*Clone [demok8s](https://github.com/pkumar26/demok8s.git) repo locally:*
+**Clone [demok8s](https://aka.ms/aksdevops) repo locally:**
 
     git clone https://github.com/pkumar26/demok8s.git
+    cd demok8s
 
 >Repo has following files in it:
 
@@ -82,41 +94,61 @@ and finally you need objectID
     * helloworld-v2.yaml - k8s deployment file for Version 2 of public facing application
     * storage.yaml - provisioning Azure disk managed storage provider
     * stateful-mongo.yaml - Mongodb with persistent storage
+    * headless.yaml - Mongodb service defination
     * aci.yaml - launch containers on ACI
 
-
-*Install Azure PowerShell module if it's not already installed & connect to your account*
+**Install Azure PowerShell module if it's not already installed & connect to your account - not needed if using Cloud Shell**
 
     Install-Module -Name Az -AllowClobber
-
     Connect-AzAccount
 
-*Setup deployment variables:*
+**Setup deployment variables:**\
+Powershell:
 
     $location = 'westus'
     $resourceGroupName = 'demok8srg'
 
-*Create resource group if it not already there:*
+Bash:
+
+    export location='westus'
+    export resourceGroupName='demok8srg'
+
+**Create resource group to hold together all deployed resources:**\
+Powershell:
 
     New-AzResourceGroup `
      -Name $resourceGroupName `
      -Location $location `
      -Verbose -Force
+Bash:
+
+    az group create --name $resourceGroupName --location $location
+
+## Setup Azure Container Registry
 
 >Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
-*Setup deployment variables for ACR:*
+**Setup deployment variables for ACR:**\
+Powershell:
 
-    $location = 'westus'
-    $resourceGroupName = 'demok8srg'
     $resourceDeploymentName = 'demoacrdeploy'
-    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
+    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demok8s'  <-- Change it as per your environment
     $templateFile = 'acrDeploy.json'
     $templateParameterFile = 'acrDeploy.param.json'
     $template = $templatePath + '\' + $templateFile
     $templateParameter = $templatePath + '\' + $templateParameterFile
 
-*Create Azure Container Registry:*
+Bash:
+
+    export resourceDeploymentName='demoacrdeploy'
+    export templatePath=$HOME/demok8s'  <-- Change it as per your environment
+    export templateFile='acrDeploy.json'
+    export templateParameterFile='acrDeploy.param.json'
+    export template=$templatePath/$templateFile
+    export templateParameter=$templatePath/$templateParameterFile
+
+**Create Azure Container Registry:**\
+Powershell:
 
     New-AzResourceGroupDeployment `
      -Name $resourceDeploymentName `
@@ -125,11 +157,21 @@ and finally you need objectID
      -TemplateParameterFile $templateParameter `
      -Verbose -Force
 
-*Generate SSH keys to be used for AKS worker nodes:*
+Bash:
+
+    az group deployment create \
+      --name $resourceDeploymentName \
+      --resource-group $resourceGroupName \
+      --template-file $template \
+      --parameters @$templateParameter
+
+## Create a Kubernetes cluster in Azure
+
+**Generate SSH keys to be used for AKS worker nodes:**
 
     ssh-keygen -t rsa
 
-*Find available AKS versions in your region:*
+**Find available AKS versions in your region:**
 
     az aks get-versions -l westus -o table
 
@@ -139,18 +181,27 @@ and finally you need objectID
 >Use AKS verion one older than the latest, as we'll try upgrading cluster later in the lab.\
 >Use the content of .pub file generated by ssh-keygen in param.json
 
-*Setup deployment variables for AKS:*
+**Setup deployment variables for AKS:**\
+Powershell:
 
-    $location = 'westus'
-    $resourceGroupName = 'demok8srg'
     $resourceDeploymentName = 'demok8sdeploy'
-    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demo'  <-- Change it as per your environment
+    $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demok8s'  <-- Change it as per your environment
     $templateFile = 'k8sDeploy.json'
     $templateParameterFile = 'k8sDeploy.param.json'
     $template = $templatePath + '\' + $templateFile
     $templateParameter = $templatePath + '\' + $templateParameterFile
 
-*Launch AKS cluster deployment:*
+Bash:
+
+    export resourceDeploymentName='demok8sdeploy'
+    export templatePath=$HOME/demok8s'  <-- Change it as per your environment
+    export templateFile='k8sDeploy.json'
+    export templateParameterFile='k8sDeploy.param.json'
+    export template=$templatePath/$templateFile
+    export templateParameter=$templatePath/$templateParameterFile
+
+**Launch AKS cluster deployment:**\
+Powershell:
 
     New-AzResourceGroupDeployment `
      -Name $resourceDeploymentName `
@@ -159,14 +210,24 @@ and finally you need objectID
      -TemplateParameterFile $templateParameter `
      -Verbose -Force
 
+Bash:
+
+    az group deployment create \
+      --name $resourceDeploymentName \
+      --resource-group $resourceGroupName \
+      --template-file $template \
+      --parameters @$templateParameter
+
+## Prepare container images
+
 >As AKS deployment is going to take a while, let's setup some images to work with.
 If you already have docker images, you may push them to ACR as well.
 
-> !! *Bonus - [Create & publish your images to your container registry using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops.md)* !!
+> !! *Bonus - [Create a CI pipeline for creating and publishing container images, to your container registry using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-ci.md)* !!
 
 > If not, please use sample images for demo purpose.
 
-*Pull example images, tag them and push to your Azure Container Registry. You'll use these images to launch containers in AKS*
+**Pull example images, tag them and push to your Azure Container Registry. You'll use these images to launch containers in AKS**
 
     docker pull pkumar/helloworld:latest
     docker pull pkumar/helloworld:v2
@@ -176,51 +237,69 @@ If you already have docker images, you may push them to ACR as well.
 
 > 'docker image ls' should show your images
 
-*On Azure portal find password to login to ACR. \
-Your ACR registery -> Access Keys -> password*
+**On Azure portal find password to login to ACR. \
+Your ACR registery -> Access Keys -> password**
 
-    docker login youracr.azurecr.io -u <username>
+    docker login <youracr.azurecr.io> -u <username>
 
     docker push <yourRegistry.azurecr.io>/helloworld
     docker push <yourRegistry.azurecr.io>/helloworld:v2
 
-*For AKS to pull images from ACR, grant AKS read only access to ACR:*
+## Allow AKS to access ACR images
+
+**For AKS to pull images from ACR, grant AKS read only access to ACR:**\
+Powershell:
 
     $aksresourcegroup='demok8srg'
     $aksclustername='demok8s'
-    $acrresourcegroup='sharedrg'
+    $acrresourcegroup='demok8srg'
     $acrname=<yourRegistry.azurecr.io>
 
     $clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
     $acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
+Bash:
+
+    export aksresourcegroup='demok8srg'
+    export aksclustername='demok8s'
+    export acrresourcegroup='demok8srg'
+    export acrname=<yourRegistry.azurecr.io>
+
+    export clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
+    export acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
+
+>Create role assignment
 
     az role assignment create --assignee $clientid --role Reader --scope $acrid
 
 >Check if AKS deployment is complete & successful. Proceed further if AKS is deployed.
 
-*Get credentials to interact with AKS cluster:*
+**Get credentials to interact with AKS cluster:**
 
     az aks get-credentials --resource-group demok8srg --name demok8s
 
-*Create K8s secret for deployments to pull images from ACR:*
+**Create K8s secret for deployments to pull images from ACR:**
 
     kubectl create secret docker-registry <giveSecretaName> --docker-server <yourRegistry.azurecr.io> --docker-username <clientid> --docker-password <SPPassword> --docker-email <yourEmailAddress>
 
 >you need this (giveSecretaName) for k8s deployments.
 
-*Install Helm & verify that Tiller is up & running successfully**
+## Ready AKS cluster for HELM deployments
+
+**Install Helm & verify that Tiller is up & running successfully**
 
     helm init
     kubectl get pods -n kube-system     <--Verify that tiller is up & running
     helm list                           <-- This should work without any error
 
+## Private and Public Ingress
+
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
 For this demo you'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
 
-*Install Traefik*
+**Install Traefik**
 >If you've domain to work with, replace example domain name below. If not, you need to add example domain to hosts file as shown below:
 
-    helm install --set dashboard.enabled=true,dashboard.domain=demo.example.com stable/traefik
+    helm install --set dashboard.enabled=true,dashboard.domain=demok8s.example.com stable/traefik
 
 >Wait untill LoadBalancer has IP allocated to it.
 
@@ -239,13 +318,19 @@ For this demo you'll be exposing internal application through Azure Internal LB 
     virulent-dragon-traefik-dashboard   ClusterIP      10.0.33.244   <none>        80/TCP                       18s
 
 >Note down the External-IP of Public Load Balancer.\
-If you've public domain, you may setup A record to point to this IP e.g. demo.example.com. Accessing this will show you the dashboard of traefik. If not, please edit hosts file and add example domain pointing to LoadBalancer External IP:
+If you've public domain, you may setup A record to point to this IP e.g. demok8s.example.com. Accessing this will show you the dashboard of traefik. If not, please edit hosts file and add example domain pointing to LoadBalancer External IP:
 
-    notepad c:\windows\system32\drivers\etc\hosts
+    On Windows: notepad c:\windows\system32\drivers\etc\hosts
+    On Linux: vim /etc/hosts
 
-    13.14.15.16	demo.example.com
+    13.14.15.16	demok8s.example.com
 
-*Deploy three applications to AKS cluster*
+## Deploy apps to AKS
+
+> !! *Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md)* !!
+Note: This is independent of your application code which is in containers. If you decide not to use DevOps you may continue to follow the steps manually
+
+**Deploy three applications to AKS cluster**
 
 >Internal application, accessible only on internal network through internal load balancer
 
@@ -282,25 +367,27 @@ If you've public domain, you may setup A record to point to this IP e.g. demo.ex
 http://demo.example.com/v1 \
 http://demo.example.com/v2
 
-*Scale up the any application by editing yaml file and changing replicas from 1 to 3*
+**Scale up the any application by editing yaml file and changing replicas from 1 to 3**
 
     replicas: 3
 
-*Apply changes, and verify the increased number of pods*
+**Apply changes, and verify the increased number of pods**
 
     kubectl apply -f helloworld-v1.yml
     kubectl get pods
 
-*Kill some pods & see what happens, e.g*
+**Kill some pods & see what happens, e.g**
 
     kubectl delete pod helloworld-v1-deployment-567bf9876-2r2km
     kubectl get pods
 
+## Extend AKS with ACI (Azure Container Images)
+
 > !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
 
-## Persistent storage for your applications
+## Persistent storage and state
 
-*Deploy Mongodb cluster with persistent storage*
+**Deploy Mongodb cluster with persistent storage as a stateful set**
 
     kubectl apply -f storage.yaml
     kubectl apply -f headless.yaml
@@ -313,7 +400,7 @@ http://demo.example.com/v2
     mongo-1                                          2/2       Running   0          27m       172.16.0.20    aks-agentpool-23040724-2
     mongo-2                                          2/2       Running   0          25m       172.16.0.123   aks-agentpool-23040724-1
 
-*Login to mongo-0 and check if it is the primary node*
+**Login to mongo-0 and check if it is the primary node**
 
     kubectl exec -it mongo-1 bash
 
@@ -322,25 +409,28 @@ http://demo.example.com/v2
     .....
     rs0:PRIMARY>
 
-*Kill primary container node mongo-0 and observe what happens*
+**Kill primary container node mongo-0 and observe what happens**
 
     kubectl delete pod mongo-0
     kubectl get pods
 
 ## Upgrading and Scaling AKS cluster
 
-*Check available upgrate for your cluster and upgrade to it*
+**Check available upgrate for your cluster and upgrade to it**
 
     az aks get-upgrades --resource-group demok8srg --name demok8s --output table
     az aks upgrade --resource-group demok8srg --name demok8s --kubernetes-version <upgrade version>
+
+**Wait for the cluster to be upgraded and then check the version of cluster again**
+
     az aks show --resource-group demok8srg --name demok8s --output table
 
-*Try scaling up your cluster either through portal or through command line as follows:*
+**Try scaling up your cluster either through portal or through command line as follows:**
 
     az aks scale --name demok8s --resource-group demok8srg --node-count 5
 
 
-## Logging
+## Logging & Application Insights
 
 Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
 
@@ -349,5 +439,7 @@ Browse to your AKS cluster on the Azure portal and click on Insights under Monit
 ![](logging/2-monitoring.jpg)
 
 ![](logging/3-monitoring.jpg)
+
+**Enable APM to get insights into your application**
 
 This concludes the demo.
