@@ -132,7 +132,7 @@ Bash:
     az group create --name $resourceGroupName --location $location
 
 ## Setup Azure Container Registry
----
+
 >Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
 **Setup deployment variables for ACR:**\
@@ -173,7 +173,7 @@ Bash:
       --parameters @$templateParameter
 
 ## Create a Kubernetes cluster in Azure
----
+
 **Generate SSH keys to be used for AKS worker nodes:**
 
     ssh-keygen -t rsa
@@ -226,7 +226,7 @@ Bash:
       --parameters @$templateParameter
 
 ## Prepare container images
----
+
 >As AKS deployment is going to take a while, let's setup some images to work with.
 If you already have docker images, you may push them to ACR as well.
 
@@ -253,7 +253,7 @@ Your ACR registery -> Access Keys -> password**
     docker push <yourRegistry.azurecr.io>/helloworld:v2
 
 ## Allow AKS to access ACR images
----
+
 **For AKS to pull images from ACR, grant AKS read only access to ACR:**\
 Powershell:
 
@@ -291,7 +291,7 @@ Bash:
 >you need this (giveSecretaName) for k8s deployments.
 
 ## Prepare AKS cluster for HELM deployments
----
+
 **Install Helm & verify that Tiller is up & running successfully**
 
     helm init
@@ -299,7 +299,7 @@ Bash:
     helm list                           <-- This should work without any error
 
 ## Private and Public Ingress
----
+
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
 For this demo you'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
 
@@ -333,7 +333,7 @@ If you've public domain, you may setup A record to point to this IP e.g. demok8s
     13.14.15.16	demok8s.example.com
 
 ## Deploy apps to AKS
----
+
 > !! *Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md)* !!
 Note: This is independent of your application code which is in containers. If you decide not to use DevOps you may continue to follow the steps manually
 
@@ -389,11 +389,11 @@ http://demo.example.com/v2
     kubectl get pods
 
 ## Extend AKS with ACI (Azure Container Images)
----
+
 > !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
 
 ## Persistent storage and state
----
+
 **Deploy Mongodb cluster with persistent storage as a stateful set**
 
     kubectl apply -f storage.yaml
@@ -422,7 +422,7 @@ http://demo.example.com/v2
     kubectl get pods
 
 ## Upgrading and Scaling AKS cluster
----
+
 **Check available upgrate for your cluster and upgrade to it**
 
     az aks get-upgrades --resource-group demok8srg --name demok8s --output table
@@ -438,7 +438,7 @@ http://demo.example.com/v2
 
 
 ## Logging & Application Insights
----
+
 Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
 
 ![](logging/1-monitoring.jpg)
