@@ -152,7 +152,8 @@ PowerShell:
 
 Bash:
 
-```resourceDeploymentName='demoacrdeploy'
+```
+resourceDeploymentName='demoacrdeploy'
 #Change it as per your environment
 templatePath=$HOME/demok8s
 templateFile=acrDeploy.json
@@ -173,7 +174,8 @@ PowerShell:
 
 Bash:
 
-```az group deployment create \
+```
+az group deployment create \
 --name $resourceDeploymentName \
 --resource-group $resourceGroupName \
 --template-file $template \
@@ -209,7 +211,8 @@ PowerShell:
 
 Bash:
 
-```resourceDeploymentName='demok8sdeploy'
+```
+resourceDeploymentName='demok8sdeploy'
 # Change templatePath as per your environment
 resourceDeploymentName=demok8sdeploy
 templatePath=$HOME/demok8s
@@ -231,7 +234,8 @@ PowerShell:
 
 Bash:
 
-```az group deployment create \
+```
+az group deployment create \
 --name $resourceDeploymentName \
 --resource-group $resourceGroupName \
 --template-file $template \
