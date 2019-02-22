@@ -1,20 +1,9 @@
 # Azure Kubernetes Service (AKS) with Advanced Networking
-[Objectives](#bbjectives) \
-[Before you start](#before-you-start) \
-[Configure your environment](#configure-your-environment) \
-[Setup Azure Container Registry](#setup-azure-container-registry) \
-[Create a Kubernetes cluster in Azure](#create-a-kubernetes-cluster-in-azure) \
-[Prepare container images](#prepare-container-images) \
-[Allow AKS to access ACR images](#allow-aks-to-access-acr-images) \
-[Ready AKS cluster for HELM deployments](#ready-aks-cluster-for-helm-deployments) \
-[Private and Public Ingress](#private-and-public-ingress) \
-[Deploy apps to AKS](#deploy-apps-to-aks) \
-[Extend AKS](#extend-aks-with-ACI-(azure-container-images)) \
-[Persistent storage and state](#persistent-storage-and-state) \
-[Upgrading and Scaling AKS](#upgrading-and-scaling-aks-cluster) \
-[Logging & Application Insights](#logging-&-application-insights)
 
-## Objectives
+## Objectives/ Challenges
+
+The objective of this hands-on lab is not to complete all the steps, but to understand what you are doing and take away the knowledge which could be useful in your environmet. Here's what we'll try to achieve:
+
 - Running AKS cluster with VNet integration
 - ARM templates for the setup
 - ACR setup & its integration with AKS
@@ -25,11 +14,29 @@
 - Using persistent storage for the applications
 - Application Insights
 
-At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications running. Here's how it'll look like:
+At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications and a DB running. Here's how it'll look like:
 
 ![](diagram.jpg)
 
+---
+
+[Before you start](#before-you-start) \
+[Configure your environment](#configure-your-environment) \
+[Setup Azure Container Registry](#setup-azure-container-registry) \
+[Create a Kubernetes cluster in Azure](#create-a-kubernetes-cluster-in-azure) \
+[Prepare container images](#prepare-container-images) \
+[Allow AKS to access ACR images](#allow-aks-to-access-acr-images) \
+[Prepare AKS cluster for HELM deployments](#prepare-aks-cluster-for-helm-deployments) \
+[Private and Public Ingress](#private-and-public-ingress) \
+[Deploy apps to AKS](#deploy-apps-to-aks) \
+[Extend AKS](#extend-aks-with-ACI-(azure-container-images)) \
+[Persistent storage and state](#persistent-storage-and-state) \
+[Upgrading and Scaling AKS](#upgrading-and-scaling-aks-cluster) \
+[Logging & Application Insights](#logging-&-application-insights)
+
+
 ## Before you start
+---
 - [Azure account](https://azure.microsoft.com/en-us/free/)
 - Code Editor e.g [VSCode](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -39,7 +46,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 - [HELM](https://docs.helm.sh/)
 
 ## Configure your environment
-
+---
 **Login to your Azure account**
 
     az login
@@ -125,7 +132,7 @@ Bash:
     az group create --name $resourceGroupName --location $location
 
 ## Setup Azure Container Registry
-
+---
 >Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
 **Setup deployment variables for ACR:**\
@@ -166,7 +173,7 @@ Bash:
       --parameters @$templateParameter
 
 ## Create a Kubernetes cluster in Azure
-
+---
 **Generate SSH keys to be used for AKS worker nodes:**
 
     ssh-keygen -t rsa
@@ -219,7 +226,7 @@ Bash:
       --parameters @$templateParameter
 
 ## Prepare container images
-
+---
 >As AKS deployment is going to take a while, let's setup some images to work with.
 If you already have docker images, you may push them to ACR as well.
 
@@ -246,7 +253,7 @@ Your ACR registery -> Access Keys -> password**
     docker push <yourRegistry.azurecr.io>/helloworld:v2
 
 ## Allow AKS to access ACR images
-
+---
 **For AKS to pull images from ACR, grant AKS read only access to ACR:**\
 Powershell:
 
@@ -283,8 +290,8 @@ Bash:
 
 >you need this (giveSecretaName) for k8s deployments.
 
-## Ready AKS cluster for HELM deployments
-
+## Prepare AKS cluster for HELM deployments
+---
 **Install Helm & verify that Tiller is up & running successfully**
 
     helm init
@@ -292,7 +299,7 @@ Bash:
     helm list                           <-- This should work without any error
 
 ## Private and Public Ingress
-
+---
 >There are multiple ways to expose services running inside AKS e.g. through Azure ALB, LB, Nginx Ingress controller, Traefik etc.
 For this demo you'll be exposing internal application through Azure Internal LB & Public facing application through Traefik, which will use Azure LB.
 
@@ -326,7 +333,7 @@ If you've public domain, you may setup A record to point to this IP e.g. demok8s
     13.14.15.16	demok8s.example.com
 
 ## Deploy apps to AKS
-
+---
 > !! *Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md)* !!
 Note: This is independent of your application code which is in containers. If you decide not to use DevOps you may continue to follow the steps manually
 
@@ -382,11 +389,11 @@ http://demo.example.com/v2
     kubectl get pods
 
 ## Extend AKS with ACI (Azure Container Images)
-
+---
 > !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
 
 ## Persistent storage and state
-
+---
 **Deploy Mongodb cluster with persistent storage as a stateful set**
 
     kubectl apply -f storage.yaml
@@ -415,7 +422,7 @@ http://demo.example.com/v2
     kubectl get pods
 
 ## Upgrading and Scaling AKS cluster
-
+---
 **Check available upgrate for your cluster and upgrade to it**
 
     az aks get-upgrades --resource-group demok8srg --name demok8s --output table
@@ -431,7 +438,7 @@ http://demo.example.com/v2
 
 
 ## Logging & Application Insights
-
+---
 Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
 
 ![](logging/1-monitoring.jpg)
