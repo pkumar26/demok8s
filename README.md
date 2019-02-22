@@ -19,7 +19,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 ![](diagram.jpg)
 
 ---
-
+## Hands-on lab
 [Before you start](#before-you-start) \
 [Configure your environment](#configure-your-environment) \
 [Setup Azure Container Registry](#setup-azure-container-registry) \
@@ -37,6 +37,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 
 ## Before you start
 
+**You may need some or all of the following:**
 - [Azure account](https://azure.microsoft.com/en-us/free/)
 - Code Editor e.g [VSCode](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
