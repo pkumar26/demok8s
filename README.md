@@ -4,15 +4,15 @@
 
 The objective of this hands-on lab is not to complete all the steps, but to understand what you are doing and take away the knowledge which could be useful in your environmet. Here's what we'll try to achieve:
 
-- Running AKS cluster with VNet integration
-- ARM templates for the setup
-- ACR setup & its integration with AKS
+- Run AKS cluster with VNet integration
+- Use ARM templates for the setup
+- Setup ACR & integrate it with AKS
 - Push & pull container images from ACR
 - Expose services on internal & public facing network
 - Extend AKS cluster with ACI
 - Option to setup CI & CD pipeline using Azure DevOps
-- Using persistent storage for the applications
-- Application Insights
+- Use persistent storage and state for the DB application
+- Explore Monitoring/ Application Insights
 
 At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, AKS cluster, Public & Private LoadBalancers, 3 applications and a DB running. Here's how it'll look like:
 
