@@ -3,19 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "SPAppID": {
-            "type": "securestring",
+            "type": "string",
             "metadata": {
                 "description": "APP ID of Service Principal"
             }
         },
         "SPObjectID": {
-            "type": "securestring",
+            "type": "string",
             "metadata": {
                 "description": "Object ID of Service Principal"
             }
         },
         "SPSecret": {
-            "type": "securestring",
+            "type": "string",
             "metadata": {
                 "description": "Secret for Service Principal"
             }
