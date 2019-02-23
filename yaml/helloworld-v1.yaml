@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-v1-deployment
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: helloworld-v1
+  template:
+    metadata:
+      labels:
+        app: helloworld-v1
+    spec:
+      containers:
+      - name: helloworld-v1
+        image: <yourACRRegistry.azurecr.io>/helloworld:##BUILD_ID##
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      imagePullSecrets:
+      - name: <k8sSecretName>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-v1
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30303
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: helloworld-v1
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: helloworld-v1-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - host: demok8s.example.com
+    http:
+      paths:
+      - path: /v1
+        backend:
+          serviceName: helloworld-v1
+          servicePort: http

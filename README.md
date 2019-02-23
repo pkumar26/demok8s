@@ -352,7 +352,7 @@ If you have a public domain, you may set up an A record to point to this IP e.g.
     On Linux: vim /etc/hosts
 
     <LoadBalancer IP> demok8s.example.com  # Replace with your LoadBalancer EXTERNAL-IP, e.g. 13.14.15.16	demok8s.example.com
-
+![](traefik.jpg)
 ## Deploy apps to AKS
 
 > !! *Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md)* !!
