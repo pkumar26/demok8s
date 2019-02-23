@@ -382,13 +382,13 @@ Note: This is independent of your application code which is in containers. If yo
 http://demo.example.com/v1 \
 http://demo.example.com/v2
 
-**Scale up the any application by editing yaml file and changing replicas from 1 to 3**
+**Scale up the any application by editing helloworld-v1.yaml file and changing replicas from 1 to 3**
 
     replicas: 3
 
 **Apply changes, and verify the increased number of pods**
 
-    kubectl apply -f helloworld-v1.yml
+    kubectl apply -f helloworld-v1.yaml
     kubectl get pods
 
 **Kill some pods & see what happens, e.g**
