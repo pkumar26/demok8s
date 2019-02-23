@@ -23,7 +23,7 @@ spec:
             memory: "128Mi"
             cpu: "500m"
       imagePullSecrets:
-      - name: acr-auth
+      - name: <k8sSecretName>
 ---
 apiVersion: v1
 kind: Service
