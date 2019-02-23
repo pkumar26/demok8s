@@ -113,13 +113,13 @@ and finally you need objectID
 **Setup deployment variables:**\
 PowerShell:
 
-    $location = 'westus'
+    $location = 'eastus'
     $resourceGroupName = 'demok8srg'
 
 Bash:
 
-    export location='westus'
-    export resourceGroupName='demok8srg'
+    location='westus'
+    resourceGroupName='demok8srg'
     # Persist for Later Sessions in Case of Timeout
     echo export location=$location >> ~/.bashrc
     echo export resourceGroupName=$resourceGroupName >> ~/.bashrc
@@ -152,15 +152,12 @@ PowerShell:
 
 Bash:
 
-```
-resourceDeploymentName='demoacrdeploy'
-#Change it as per your environment
-templatePath=$HOME/demok8s
-templateFile=acrDeploy.json
-templateParameterFile=acrDeploy.param.json
-template=$templatePath/$templateFile
-templateParameter=$templatePath/$templateParameterFile
-```
+    resourceDeploymentName='demoacrdeploy'
+    templatePath=$HOME/demok8s      <-- Change it as per your environment
+    templateFile=acrDeploy.json
+    templateParameterFile=acrDeploy.param.json
+    template=$templatePath/$templateFile
+    templateParameter=$templatePath/$templateParameterFile
 
 **Create Azure Container Registry:**\
 PowerShell:
@@ -174,14 +171,13 @@ PowerShell:
 
 Bash:
 
-```
-az group deployment create \
---name $resourceDeploymentName \
---resource-group $resourceGroupName \
---template-file $template \
---parameters @$templateParameter \
---no-wait
-```
+    ```az group deployment create \
+    --name $resourceDeploymentName \
+    --resource-group $resourceGroupName \
+    --template-file $template \
+    --parameters @$templateParameter \
+    --no-wait ```
+
 
 ## Create a Kubernetes cluster in Azure
 
@@ -211,16 +207,12 @@ PowerShell:
 
 Bash:
 
-```
-resourceDeploymentName='demok8sdeploy'
-# Change templatePath as per your environment
-resourceDeploymentName=demok8sdeploy
-templatePath=$HOME/demok8s
-templateFile=k8sDeploy.json
-templateParameterFile=k8sDeploy.param.json
-template=$templatePath/$templateFile
-templateParameter=$templatePath/$templateParameterFile
-```
+    resourceDeploymentName='demok8sdeploy'
+    templatePath=$HOME/demok8s      <-- Change it as per your environment
+    templateFile=k8sDeploy.json
+    templateParameterFile=k8sDeploy.param.json
+    template=$templatePath/$templateFile
+    templateParameter=$templatePath/$templateParameterFile
 
 **Launch AKS cluster deployment:**\
 PowerShell:
@@ -234,14 +226,12 @@ PowerShell:
 
 Bash:
 
-```
-az group deployment create \
---name $resourceDeploymentName \
---resource-group $resourceGroupName \
---template-file $template \
---parameters @$templateParameter \
---no-wait
-```
+    ```az group deployment create \
+    --name $resourceDeploymentName \
+    --resource-group $resourceGroupName \
+    --template-file $template \
+    --parameters @$templateParameter \
+    --no-wait ```
 
 ## Prepare container images
 
