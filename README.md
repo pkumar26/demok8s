@@ -121,8 +121,8 @@ Bash:
     location='westus'
     resourceGroupName='demok8srg'
     # Persist for Later Sessions in Case of Timeout
-    echo export location=$location >> ~/.bashrc
-    echo export resourceGroupName=$resourceGroupName >> ~/.bashrc
+    echo location=$location >> ~/.bashrc
+    echo resourceGroupName=$resourceGroupName >> ~/.bashrc
 
 
 **Create resource group to hold together all deployed resources:**\
@@ -268,19 +268,19 @@ PowerShell:
     $aksresourcegroup='demok8srg'
     $aksclustername='demok8s'
     $acrresourcegroup='demok8srg'
-    $acrname=<yourRegistry.azurecr.io>
+    $acrname='<yourRegistry>'
 
     $clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
     $acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
 Bash:
 
-    export aksresourcegroup='demok8srg'
-    export aksclustername='demok8s'
-    export acrresourcegroup='demok8srg'
-    export acrname=<yourRegistry.azurecr.io>
+    aksresourcegroup='demok8srg'
+    aksclustername='demok8s'
+    acrresourcegroup='demok8srg'
+    acrname='<yourRegistry>'
 
-    export clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
-    export acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
+    clientid=<yourSPclientID> or <appID> <-- created at beginning of the lab
+    acrid=$(az acr show --name $acrname --resource-group $acrresourcegroup --query "id" --output tsv)
 
 >Create role assignment
 
