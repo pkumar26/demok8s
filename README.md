@@ -103,7 +103,8 @@ and finally you need objectID
     * storage.yaml - provisioning Azure disk managed storage provider
     * stateful-mongo.yaml - Mongodb with persistent storage
     * headless.yaml - Mongodb service defination
-    * aci.yaml - launch containers on ACI
+    * azure-pipelines.yaml - Artifacts build pipeline for CD
+    * appinsights-demo.yaml - Container deployment with app insights.
 
 **Install Azure PowerShell module if it's not already installed & connect to your account - not needed if using Azure Cloud Shell**
 
@@ -362,7 +363,7 @@ Note: This is independent of your application code which is in containers. If yo
 
 >Internal application, accessible only on internal network through internal load balancer.
 
->In your preferred code editor, edit helloworld-internal.yaml, helloworld-v1.yaml, helloworld-v2.yaml and aci.yaml.\
+>In your preferred code editor, edit kubernetes deployment files like helloworld-internal.yaml, helloworld-v1.yaml, helloworld-v2.yaml etc.\
 Replace <yourACRRegistry.azurecr.io> with the name of you ACR registry.\
 Replace \<k8sSecretName> with the secret you created earlier.
 
@@ -415,7 +416,7 @@ http://demok8s.example.com/v2
 
 ## Extend AKS with ACI (Azure Container Images)
 
-> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!\
+> !! Bonus - Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster !!\
 More info here: [Use Virtual Kubelet with Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/virtual-kubelet)
 
 ## Persistent storage and state
