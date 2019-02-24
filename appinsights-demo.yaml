@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appinsights-demo-deployment
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: appinsights-demo
+  template:
+    metadata:
+      labels:
+        app: appinsights-demo
+    spec:
+      containers:
+      - name: appinsights-demo
+        image: <yourACRRegistry.azurecr.io>/appinsightsdemo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: APPINSIGHTS_INSTRUMENTATIONKEY
+          value: "your_key_here"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      imagePullSecrets:
+      - name: <k8sSecretName>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appinsights-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30310
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: appinsights-demo
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: appinsights-demo-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - host: demok8s.example.com
+    http:
+      paths:
+      - path: /appinsights-demo
+        backend:
+          serviceName: appinsights-demo
+          servicePort: http
