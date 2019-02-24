@@ -243,7 +243,7 @@ Bash:
 >As AKS deployment is going to take a while, let's setup some images to work with.
 If you already have docker images, you may push them to ACR as well.
 
-> !! *Bonus - [Create a CI pipeline for creating and publishing container images, to your container registry using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-ci.md)* !!
+> !! Bonus - [Create a CI pipeline for creating and publishing container images, to your container registry using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-ci.md) !!
 
 > If not, please use sample images for demo purpose.
 
@@ -356,7 +356,7 @@ If you have a public domain, you may set up an A record to point to this IP e.g.
 ![](traefik.jpg)
 ## Deploy apps to AKS
 
-> !! *Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md)* !!
+> !! Bonus - [Create a CD pipeline for K8s config deployments to AKS cluster using Azure DevOps](https://github.com/pkumar26/azure-devops/blob/master/devops-cd.md) !!
 Note: This is independent of your application code which is in containers. If you decide not to use DevOps you may continue to follow the steps manually
 
 **Deploy three applications to AKS cluster**
@@ -509,7 +509,7 @@ To get insights into any application, you need to add sdk to your container. Her
 
 **Let's add node.js sdk to our helloworld example application**
 
-> !! *Bonus - Create a container image with app insight SDK & push it to your repository. Then deploy app on AKS using that container* !!
+> !! Bonus - Create a container image with app insight SDK & push it to your repository. Then deploy app on AKS using that container !!
 
     Hint:
     - az acr build -r <yourACRRegistry> https://github.com/pkumar26/appinsights-demo.git -f Dockerfile -t appinsightsdemo
