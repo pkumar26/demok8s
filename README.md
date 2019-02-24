@@ -118,7 +118,7 @@ PowerShell:
 
 Bash:
 
-    location='westus'
+    location='eastus'
     resourceGroupName='demok8srg'
     # Persist for Later Sessions in Case of Timeout
     echo location=$location >> ~/.bashrc
@@ -189,7 +189,7 @@ Bash:
 
 **Find available AKS versions in your region:**
 
-    az aks get-versions -l westus -o table
+    az aks get-versions -l eastus -o table
 
 >Explore contents of k8sDeploy & k8sDeploy.param.json in your favourite editor. Edit parameter values in k8sDeploy.param.json as needed.
 
@@ -465,14 +465,28 @@ http://demok8s.example.com/v2
 
 ## Logging & Application Insights
 
-Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
+**Setup Azure Monitor for Containers**
+
+- Unless you changed value of "enableOmsAgent" in template, monitoring is already enabled on your AKS cluster. If you disabled it, it can be added as follows:
+>
+    kubectl get ds omsagent --namespace=kube-system
+
+**Gaining Insights into AKS Cluster Performance**
+
+Browse to your AKS cluster on the Azure portal and click on Insights under Monitoring. Enable Azure container monitoring:
+
+![](logging/enable_insights.jpg)
+
+ Check cluster, nodes or container info. Click on the Containers tab and pick a container to view its live logs and debug what is going on...
 
 ![](logging/1-monitoring.jpg)
 
 ![](logging/2-monitoring.jpg)
 
+**Viewing container logs**
+
+Select any container and in right blade click view container logs
+
 ![](logging/3-monitoring.jpg)
 
-**Enable APM to get insights into your application**
-
-This concludes the demo.
+![](logging/container_logs.jpg)

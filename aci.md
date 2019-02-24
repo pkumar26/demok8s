@@ -6,7 +6,7 @@
         --name aci-subnet
         --address-prefix 172.16.32.0/28
 
-**Add Azure CLI extension**
+**Install ACI connector**
 
     az aks install-connector --resource-group demok8srg --name demok8s --connector-name virtual-kubelet --os-type Both
 
