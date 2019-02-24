@@ -29,7 +29,7 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 [Prepare AKS cluster for HELM deployments](#prepare-aks-cluster-for-helm-deployments) \
 [Private and Public Ingress](#private-and-public-ingress) \
 [Deploy apps to AKS](#deploy-apps-to-aks) \
-[Extend AKS](#extend-aks-with-ACI-(azure-container-images)) \
+[Extend AKS](#extend-aks-with-aci-(azure-container-images)) \
 [Persistent storage and state](#persistent-storage-and-state) \
 [Upgrading and Scaling AKS](#upgrading-and-scaling-aks-cluster) \
 [Logging & Application Insights](#logging-&-application-insights)
@@ -415,7 +415,8 @@ http://demok8s.example.com/v2
 
 ## Extend AKS with ACI (Azure Container Images)
 
-> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!
+> !! *Bonus - [Extend AKS cluster workloads to Azure Container Instances (ACI), without adding any nodes to your cluster](aci.md)* !!\
+More info here: [Use Virtual Kubelet with Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/virtual-kubelet)
 
 ## Persistent storage and state
 
@@ -490,3 +491,35 @@ Select any container and in right blade click view container logs
 ![](logging/3-monitoring.jpg)
 
 ![](logging/container_logs.jpg)
+
+**Enable APM to get insights into your application**
+
+- Create Application Insights resource with appropriate application type. Node.js in case of helloworld example application
+- Once created, go to the resource and copy Instrumentation key
+
+![](logging/app_insights.jpg)
+
+![](logging/insights_key.jpg)
+
+To get insights into any application, you need to add sdk to your container. Here are some more links with useful info..
+
+- [Application Insight SDKs](https://github.com/Microsoft/ApplicationInsights-Home)
+- [What is Application Insights?](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
+
+**Let's add node.js sdk to our helloworld example application**
+
+> !! *Bonus - Create a container image with app insight SDK & push it to your repository. Then deploy app on AKS using that container* !!
+
+    Hint:
+    - az acr build -r <yourACRRegistry> https://github.com/pkumar26/appinsights-demo.git -f Dockerfile -t appinsightsdemo
+    - modify appinsights-demo.yaml with your parameter values
+    - kubectl apply -f appinsights-demo.yaml
+>
+>Send some traffic to your container at http://demok8s.example.com/appinsights-demo
+
+Explore Application Insight dashboard, metrics & application map sections as your application will start sending data.
+
+![](logging/insights_dash.jpg)
+
+![](logging/app_map.jpg)
+
