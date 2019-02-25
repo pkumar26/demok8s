@@ -514,7 +514,7 @@ To get insights into any application, you need to add sdk to your container. Her
 >
 >Hints:
 >- [Use ACR build to create and push image to your registry](https://docs.azure.cn/zh-cn/cli/acr?view=azure-cli-latest#az-acr-build) \
-    az acr build -r <yourACRRegistry> https://github.com/pkumar26/appinsights-demo.git -f Dockerfile -t appinsightsdemo
+    az acr build -r \<yourACRRegistry> https://github.com/pkumar26/appinsights-demo.git -f Dockerfile -t appinsightsdemo
 >- modify appinsights-demo.yaml with your parameter values
 >- kubectl apply -f appinsights-demo.yaml
 
