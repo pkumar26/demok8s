@@ -453,6 +453,10 @@ Architecture example here:
     kubectl delete pod mongo-0
     kubectl get pods
 
+Connection string for the applications to connect to mongodb in this example will appear like this:
+
+    mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/contentdb?replicaSet=rs0
+
 ## Upgrading and Scaling AKS cluster
 
 **Check available upgrate for your cluster and upgrade to it**
