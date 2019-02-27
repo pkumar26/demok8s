@@ -2,8 +2,8 @@
 
 >Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
-**Setup deployment variables for ACR:**\
->Change templatePath and other values as per your environment\
+**Setup deployment variables for ACR:**
+>Change templatePath and other values as per your environment
 
 PowerShell:
 
