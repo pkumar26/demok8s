@@ -53,6 +53,11 @@ Bash:
     --template-file $template \
     --parameters @$templateParameter \
     --no-wait ```
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Prepare container images](prepareimages.md) \
 Back to [Create Azure Container Registry](acr.md) or to [Home](README.md)

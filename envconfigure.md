@@ -90,6 +90,11 @@ PowerShell:
 Bash:
 
     az group create --name $resourceGroupName --location $location
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Create Azure Container Registry](acr.md)\
 Back to [Before you start](start.md) or to [Home](README.md)

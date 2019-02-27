@@ -31,6 +31,11 @@
 Connection string for the applications to connect to mongodb in this example will appear like this:
 
     mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/contentdb?replicaSet=rs0
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Upgrading and Scaling AKS cluster](upgrade.md) \
 Back to [Extend AKS](aci.md) or to [Home](README.md)

@@ -12,7 +12,11 @@
 **Try scaling up your cluster either through portal or through command line as follows:**
 
     az aks scale --resource-group $resourceGroupName --name $aksclustername --node-count 5
+<br>
+<br>
+<br>
+<br>
 
-
+---
 Continue to [Monitoring - Logs and Application Insights](monitor.md) \
 Back to [Persistent storage and state](storage.md) or to [Home](README.md)

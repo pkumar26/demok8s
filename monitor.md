@@ -59,5 +59,10 @@ Explore Application Insight dashboard, metrics & application map sections as you
 ![](logging/insights_dash.jpg)
 
 ![](logging/app_map.jpg)
+<br>
+<br>
+<br>
+<br>
 
+---
 Back to [Upgrading and Scaling AKS](upgrade.md) or to [Home](README.md)

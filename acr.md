@@ -41,6 +41,11 @@ Bash:
     --template-file $template \
     --parameters @$templateParameter \
     --no-wait ```
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Create a Kubernetes cluster in Azure](aks.md) \
 Back to [Configure your environment](envconfigure.md) or to [Home](README.md)
