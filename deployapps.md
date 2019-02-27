@@ -62,6 +62,11 @@ http://demok8s.example.com/v2
 
     kubectl delete pod helloworld-v1-deployment-567bf9876-2r2km
     kubectl get pods
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Extend AKS with ACI](aci.md) \
 Back to [Private and Public Ingress](ingress.md) or to [Home](README.md)

@@ -39,5 +39,11 @@ Bash:
 
 >You need this (giveSecretaName) for k8s deployments.
 
+<br>
+<br>
+<br>
+<br>
+
+---
 Continue to [Prepare AKS cluster for HELM deployments](helm.md) \
 Back to [Prepare container images](prepareimages.md) or to [Home](README.md)

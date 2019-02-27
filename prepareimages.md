@@ -28,6 +28,11 @@ Your ACR registery -> Access Keys -> password**
 
     docker push <yourRegistry.azurecr.io>/helloworld
     docker push <yourRegistry.azurecr.io>/helloworld:v2
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Allow AKS to access ACR images](akstoacr.md) \
 Back to [Create a Kubernetes cluster in Azure](aks.md) or to [Home](README.md)

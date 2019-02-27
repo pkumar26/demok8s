@@ -32,6 +32,11 @@ If you have a public domain, you may set up an A record to point to this IP e.g.
 
     <LoadBalancer IP> demok8s.example.com  # Replace with your LoadBalancer EXTERNAL-IP, e.g. 13.14.15.16	demok8s.example.com
 ![](traefik.jpg)
+<br>
+<br>
+<br>
+<br>
 
+---
 Continue to [Deploy apps to AKS](deployapps.md) \
 Back to [Prepare AKS cluster for HELM deployments](helm.md) or to [Home](README.md)
