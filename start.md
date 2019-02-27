@@ -10,5 +10,11 @@
 well... use browser based [Azure Cloud Shell](https://shell.azure.com/) and select your shell there.
 - [HELM](https://docs.helm.sh/)
 
+<br>
+<br>
+<br>
+<br>
+
+
 Continue to [Configure your environment](envconfigure.md) \
 Back to [Home](README.md)
