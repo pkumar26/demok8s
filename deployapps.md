@@ -53,6 +53,11 @@ http://demok8s.example.com/v2
     kubectl apply -f helloworld-v1.yaml
     kubectl get pods
 
+**Try temporarily changing number of replicas by editing deployment defination on the fly:**
+
+    kubectl get deployments
+    kubectl edit <your_deployment_name>
+
 **Kill some pods & see what happens, e.g**
 
     kubectl delete pod helloworld-v1-deployment-567bf9876-2r2km

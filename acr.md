@@ -3,10 +3,11 @@
 >Explore contents of acrDeploy & acrDeploy.param.json in your favourite editor. Edit parameter values in acrDeploy.param.json as needed.
 
 **Setup deployment variables for ACR:**\
+>Change templatePath and other values as per your environment\
+
 PowerShell:
 
     $resourceDeploymentName = 'demoacrdeploy'
-    # Change templatePath as per your environment
     $templatePath = $env:SystemDrive + '\' + 'users' + '\' + 'demok8s'
     $templateFile = 'acrDeploy.json'
     $templateParameterFile = 'acrDeploy.param.json'
@@ -16,7 +17,6 @@ PowerShell:
 Bash:
 
     resourceDeploymentName='demoacrdeploy'
-    # Change templatePath as per your environment
     templatePath=$HOME/demok8s
     templateFile=acrDeploy.json
     templateParameterFile=acrDeploy.param.json

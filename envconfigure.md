@@ -73,7 +73,8 @@ Bash:
 
     location='eastus'
     resourceGroupName='demok8srg'
-    # Persist for Later Sessions in Case of Timeout
+
+    # Persistence for later sessions in case of timeout - for cloud shell only
     echo location=$location >> ~/.bashrc
     echo resourceGroupName=$resourceGroupName >> ~/.bashrc
 
@@ -85,6 +86,7 @@ PowerShell:
      -Name $resourceGroupName `
      -Location $location `
      -Verbose -Force
+
 Bash:
 
     az group create --name $resourceGroupName --location $location
