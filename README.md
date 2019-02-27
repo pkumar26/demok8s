@@ -33,5 +33,10 @@ At the end of lab you'll have a vnet with 2 subnets, Azure Container Registery, 
 [Persistent storage and state](storage.md) \
 [Upgrading and Scaling AKS](upgrade.md) \
 [Logging & Application Insights](monitor.md)
+<br>
+<br>
+<br>
+<br>
 
+---
 Let's get our hands dirty [Before you start](start.md)
