@@ -1,5 +1,9 @@
 ## Create a Kubernetes cluster in Azure
 
+> !! Bonus - Integrate AKS with KeyVault for keys, secrets & certificates !!\
+[Integrate AKS cluster with Azure KeyVault!!](kv.md)\
+Note: If you intend to do this integration, follow this before launching the AKS cluster.
+
 **Generate SSH keys to be used for AKS worker nodes:**
 
     ssh-keygen -t rsa
